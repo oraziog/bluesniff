@@ -1,0 +1,33 @@
+# Build output
+/target
+
+# Dati e configurazione generati a runtime accanto all'eseguibile
+presenze*.csv
+bt_known.txt
+names.txt
+ntfy*.txt
+inq_events.jsonl
+inq_monitor.log
+inq_monitor.pid
+
+# Backup
+*.bak
+*~
+
+# Artefatti di diagnostica e metadata dell'ambiente (non parte dell'app)
+.freebuff/
+dist/
+driver_fix.log
+fix_fps.pl
+fix_step4.pl
+fix_track.pl
+patch_track.js
+
+# Posto di lavoro per generare le immagini del README: contiene una
+# copia dell'eseguibile e un presenze.csv con i MAC mascherati.
+# Serve solo in locale, non deve finire nel repository.
+docs_img/
+
+# Log e dati generati accanto all'eseguibile della release
+/release/*.log
+/release/*.csv

@@ -1,0 +1,15 @@
+{
+  "_commento": [
+    "Manifest di deploy per la macchina di test Windows.",
+    "L'agent NON accetta binari: accetta solo questo file, scarica l'URL, ne",
+    "verifica l'hash SHA-256 e solo dopo sostituisce bluesniff.exe.",
+    "Se l'hash non coincide, o se la nuova build non risponde su /api/presence",
+    "entro 10 secondi, l'agent ripristina automaticamente il binario precedente.",
+    "",
+    "I campi _commento vengono ignorati: servono solo a rendere il file leggibile.",
+    "args sono i flag passati a bluesniff all'avvio."
+  ],
+  "url": "http://REPLACE_ME/bluesniff.exe",
+  "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "args": ["--listen", "--dashboard"]
+}

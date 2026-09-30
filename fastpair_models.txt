@@ -1,0 +1,60 @@
+# fastpair_models.txt — database locale vulnerabilità note dei dispositivi
+#
+# Formato:  key;vendor;model;CVE;description
+#   - key numerica     = match sul Google Fast Pair Model ID (esatto)
+#   - key "name:<p>"   = match case-insensitive su nome/hint/vendor
+#   - key "oui:AA:BB:CC" = match sui primi 3 ottetti del MAC (OUI)
+#   - righe "#" o vuote = commento (ignorate)
+#
+# Sezione Fast Pair — dataset WhisperPair (KU Leuven COSIC, IEEE S&P 2026,
+# CVE-2025-36911): modelli risultati vulnerabili all'HJACK dell'accessorio
+# accoppiato con firmware precedente a settembre 2025. Model ID dalla lista
+# ufficiale Fast Pair / tabella del paper. Aggiorna il file per i nuovi fix.
+13911719;Sony;WH-1000XM5;CVE-2025-36911;WhisperPair — hijack Fast Pair (firmware pre-2025-09)
+13386638;Sony;WH-1000XM4;CVE-2025-36911;WhisperPair — hijack Fast Pair (firmware pre-2025-09)
+6360443;Sony;WH-1000XM6;CVE-2025-36911;WhisperPair — hijack Fast Pair (firmware pre-2025-09)
+12499626;Sony;WF-1000XM5;CVE-2025-36911;WhisperPair — hijack Fast Pair (firmware pre-2025-09)
+16003068;Sony;WH-CH720N;CVE-2025-36911;WhisperPair — hijack Fast Pair (firmware pre-2025-09)
+12934265;Google;Pixel Buds Pro 2;CVE-2025-36911;WhisperPair — hijack Fast Pair (firmware pre-2025-09)
+3778746;Jabra;Elite 8 Active;CVE-2025-36911;WhisperPair — hijack Fast Pair (firmware pre-2025-09)
+3293323;JBL;Tune Beam;CVE-2025-36911;WhisperPair — hijack Fast Pair (firmware pre-2025-09)
+14502233;JBL;Live 775 NC;CVE-2025-36911;WhisperPair — hijack Fast Pair (firmware pre-2025-09)
+1917389;JBL;Clip 5;CVE-2025-36911;WhisperPair — hijack Fast Pair (firmware pre-2025-09)
+15473012;Marshall;MOTIF II A.N.C.;CVE-2025-36911;WhisperPair — hijack Fast Pair (firmware pre-2025-09)
+12915160;Marshall;Major V;CVE-2025-36911;WhisperPair — hijack Fast Pair (firmware pre-2025-09)
+8625818;Nothing;Ear (a);CVE-2025-36911;WhisperPair — hijack Fast Pair (firmware pre-2025-09)
+13394952;OnePlus;Nord Buds Pro 3;CVE-2025-36911;WhisperPair — hijack Fast Pair (firmware pre-2025-09)
+11155060;Redmi;Buds 5 Pro;CVE-2025-36911;WhisperPair — hijack Fast Pair (firmware pre-2025-09)
+5409858;Soundcore;Liberty 4 NC;CVE-2025-36911;WhisperPair — hijack Fast Pair (firmware pre-2025-09)
+11575855;Logitech;Wonderboom 4;CVE-2025-36911;WhisperPair — hijack Fast Pair (firmware pre-2025-09)
+#
+# Sezione pattern non-Fast-Pair: chip espressif ESP32 nei device IoT/BLE.
+# CVE-2025-27840 — 29 comandi HCI nascosti (es. 0xFC02 "write memory") nei
+# chip ESP32; bassa severità (CVSS 6.8) ma il chip è onnipresente in tracker,
+# termostati e periferiche BLE cinesi.
+name:esp32;Espressif;ESP32;CVE-2025-27840;Comandi HCI nascosti (0xFC02 write memory) nei chip ESP32
+#
+# Sezione OUI (dataset BlueToolkit / classificazione CVE per chipset): quando
+# l'annuncio non dice il nome ma il MAC appartiene a un OUI Espressif, il
+# chip è quasi certamente un ESP32 (dominante nel BLE IoT). Il CVE dipende
+# dal firmware: lo segnaliamo come avviso informativo, non verdetto.
+# Espressif OUI usati dai moduli ESP32: 24:0A:C4 24:6F:28 30:AE:A4 34:85:18
+# 3C:71:BF 5C:CF:7F 7C:9E:BD A4:CF:12 AC:D0:74 C8:2B:96 CC:50:E3 D8:A0:1D
+# EC:FA:BC F4:CF:A2 84:CC:A8 60:01:94 24:6F:28 30:AE:A4
+oui:24:0A:C4;Espressif;ESP32;CVE-2025-27840;OUI Espressif — comandi HCI nascosti nel chip ESP32 (firmware-dipendente)
+oui:24:6F:28;Espressif;ESP32;CVE-2025-27840;OUI Espressif — comandi HCI nascosti nel chip ESP32 (firmware-dipendente)
+oui:30:AE:A4;Espressif;ESP32;CVE-2025-27840;OUI Espressif — comandi HCI nascosti nel chip ESP32 (firmware-dipendente)
+oui:34:85:18;Espressif;ESP32;CVE-2025-27840;OUI Espressif — comandi HCI nascosti nel chip ESP32 (firmware-dipendente)
+oui:3C:71:BF;Espressif;ESP32;CVE-2025-27840;OUI Espressif — comandi HCI nascosti nel chip ESP32 (firmware-dipendente)
+oui:5C:CF:7F;Espressif;ESP32;CVE-2025-27840;OUI Espressif — comandi HCI nascosti nel chip ESP32 (firmware-dipendente)
+oui:7C:9E:BD;Espressif;ESP32;CVE-2025-27840;OUI Espressif — comandi HCI nascosti nel chip ESP32 (firmware-dipendente)
+oui:A4:CF:12;Espressif;ESP32;CVE-2025-27840;OUI Espressif — comandi HCI nascosti nel chip ESP32 (firmware-dipendente)
+oui:AC:D0:74;Espressif;ESP32;CVE-2025-27840;OUI Espressif — comandi HCI nascosti nel chip ESP32 (firmware-dipendente)
+oui:C8:2B:96;Espressif;ESP32;CVE-2025-27840;OUI Espressif — comandi HCI nascosti nel chip ESP32 (firmware-dipendente)
+oui:CC:50:E3;Espressif;ESP32;CVE-2025-27840;OUI Espressif — comandi HCI nascosti nel chip ESP32 (firmware-dipendente)
+oui:D8:A0:1D;Espressif;ESP32;CVE-2025-27840;OUI Espressif — comandi HCI nascosti nel chip ESP32 (firmware-dipendente)
+oui:EC:FA:BC;Espressif;ESP32;CVE-2025-27840;OUI Espressif — comandi HCI nascosti nel chip ESP32 (firmware-dipendente)
+oui:F4:CF:A2;Espressif;ESP32;CVE-2025-27840;OUI Espressif — comandi HCI nascosti nel chip ESP32 (firmware-dipendente)
+# Nota: Broadcom/Cypress/Qualcomm non hanno OUI = chipset univoco (un OUI può
+# coprire decine di chip), quindi niente voci OUI per loro: il match resterebbe
+# speculativo e darebbe falsi positivi. Aggiungere qui solo mapping sicuri.
