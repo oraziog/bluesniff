@@ -2,6 +2,18 @@
 
 <p align="center"><img src="docs/banner.png" alt="bluesniff" width="100%"></p>
 
+<p align="center">
+  <a href="https://github.com/oraziog/bluesniff/releases/tag/v0.1.0"><img alt="Release 0.1.0" src="https://img.shields.io/github/v/release/oraziog/bluesniff?display_name=tag&sort=semver"></a>
+  <a href="https://github.com/oraziog/bluesniff/actions"><img alt="Build" src="https://img.shields.io/github/actions/workflow/status/oraziog/bluesniff/release.yml?branch=main&label=build&style=flat"></a>
+  <img alt="Rust" src="https://img.shields.io/badge/rust-stable-2021%20edition-orange?logo=rust&logoColor=white">
+  <img alt="Licenza" src="https://img.shields.io/badge/license-MIT-blue">
+  <img alt="Piattaforme" src="https://img.shields.io/badge/platform-Windows%2010%2F11-0078D6?logo=windows">
+</p>
+
+<p align="center">
+  <a href="#installazione"><b>Scarica&nbsp;v0.1.0</b></a> · <a href="#cosa-fa">Cosa fa</a> · <a href="#la-dashboard">Dashboard</a> · <a href="#privacy-e-sicurezza">Privacy</a> · <a href="README-DASHBOARD.md">Docs dashboard</a> · <a href="CHANGELOG.md">CHANGELOG</a>
+</p>
+
 **Monitor passivo/attivo dei dispositivi Bluetooth intorno al tuo PC.**
 
 bluesniff ascolta gli annunci BLE e interroga i telefoni che conosci via
@@ -18,6 +30,7 @@ Scritto in Rust, **Windows-only** (usa WinRT per l'accesso BLE nativo).
 
 > **[English summary](#english)** · [Dashboard](README-DASHBOARD.md) · [CHANGELOG](CHANGELOG.md)
 
+- [Release e binario pronto](#release-e-binario-pronto)
 - [Cosa fa](#cosa-fa)
 - [Cosa NON fa](#cosa-non-fa)
 - [Installazione](#installazione)
@@ -35,6 +48,43 @@ Scritto in Rust, **Windows-only** (usa WinRT per l'accesso BLE nativo).
 - [Privacy e sicurezza](#privacy-e-sicurezza)
 - [Build da sorgente](#build-da-sorgente)
 - [Licenza](#licenza)
+
+---
+
+## Release e binario pronto
+
+**Ultima release: [`v0.1.0`](https://github.com/oraziog/bluesniff/releases/tag/v0.1.0)**
+
+| Allegato | Dimensione | Cos'è |
+|---|---|---|
+| [`bluesniff-0.1.0-windows-x64.exe`](https://github.com/oraziog/bluesniff/releases/download/v0.1.0/bluesniff-0.1.0-windows-x64.exe) | 10,2 MB | Eseguibile Windows 10/11 a 64 bit |
+
+Come si usa: scarica l'`.exe`, mettilo in una cartella in cui puoi scrivere
+(per esempio `C:\bluesniff`) e fai doppio clic. Non serve installarlo, né
+avere .NET o Visual C++ Redistributable: è un file unico. Tutto quello che
+produce — `presenze.csv`, `bluesniff.log`, il report HTML — finisce
+**accanto all'eseguibile**, quindi per portarti via tutto basta copiare la
+cartella, e per non lasciare traccia basta cancellarla.
+
+```sh
+# verifica la versione
+bluesniff --version
+
+# diagnostica completa della radio
+bluesniff --doctor
+```
+
+> **Windows SmartScreen** mostra un avviso alla prima esecuzione, perché
+> l'eseguibile non ha una firma digitale a tuo nome: clicca «Altre
+> informazioni» → «Esegui comunque». È il prezzo di un progetto di una
+> persona sola.
+
+Ogni tag `v*` su GitHub compila da sorgente il binario release con
+[GitHub Actions](https://github.com/oraziog/bluesniff/actions) e lo allega
+automaticamente alla release, con test, clippy e `cargo fmt` eseguiti prima.
+
+Il progetto deriva da uno scanner Bluetooth one-shot di
+[0x646e73](https://github.com/0x646e73/bluesniff) (MIT), qui riscritto.
 
 ---
 
@@ -119,23 +169,9 @@ Vedi [Build da sorgente](#build-da-sorgente).
 
 ## Binario pronto (Windows)
 
-Nella cartella [`release/`](release) c'è l'eseguibile compilato, senza bisogno
-di installare Rust:
-
-| File | Cos'è |
-|---|---|
-| `bluesniff-0.1.0-windows-x64.exe` | Windows 10/11 a 64 bit |
-
-Si scarica, si mette in una cartetta a scelta e si avvia con doppio clic
-(oppure `bluesniff.exe --listen`). Tutti i file che produce — `presenze.csv`,
-`bluesniff.log`, il report HTML — finiscono **accanto all'eseguibile**, non
-nelle cartelle di sistema: basta copiare quella cartella per portarsi via
-tutto, o cancellarla per non lasciare traccia.
-
-> Firmato digitalmente? No. Windows SmartScreen mostra un avviso la prima
-> volta, perché l'eseguibile non ha una firma con un certificato a nome tuo.
-> È il prezzo di un progetto di una persona sola: si clicca «Altre
-> informazioni» → «Esegui comunque», una volta sola.
+L'eseguibile compilato è nella cartella [`release/`](release) e si scarica
+dalla pagina delle release: vedi
+[Release e binario pronto](#release-e-binario-pronto).
 
 Per rigenerarlo dopo un cambio, con `--remap-path-prefix` che sostituisce
 il tuo nome utente nei messaggi di errore del binario:

@@ -1,0 +1,95 @@
+name: Release
+
+# Compila il binario Windows release a ogni tag (v0.1.0, v0.2.0, ...) e lo
+# allega alla release GitHub corrispondente. Viene eseguito anche su push dei
+# tag gia' pubblicati, per rigenerare l'allegato senza toccare il codice.
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Compila Windows x64
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Installa Rust stable
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: stable
+          components: rustfmt, clippy
+
+      - name: Cache delle dipendenze
+        uses: Swatinem/rust-cache@v2
+        with:
+          key: release-windows-x64
+
+      - name: Test
+        run: cargo test --locked
+
+      - name: Clippy
+        run: cargo clippy --all-targets --locked -- -D warnings
+
+      - name: Formattazione
+        run: cargo fmt --check
+
+      # I path di compilazione finiscono dentro il binario: rimappati, cosi'
+      # l'eseguibile non contiene il nome utente della macchina che compila.
+      - name: Build release
+        env:
+          RUSTFLAGS: --remap-path-prefix=${{ github.workspace }}=bluesniff
+        run: cargo build --release --locked
+
+      - name: Verifica la versione
+        shell: pwsh
+        run: |
+          $exe = "target\release\bluesniff.exe"
+          if (-not (Test-Path $exe)) { throw "binario non trovato: $exe" }
+          $v = & $exe --version
+          Write-Host "versione: $v"
+          if ($v -notmatch "bluesniff \d+\.\d+\.\d+") { throw "versione non leggibile: $v" }
+          $tag = "${{ github.ref_name }}"
+          if ($v -notmatch [regex]::Escape($tag.TrimStart('v'))) {
+            Write-Warning "il tag $tag non combacia con la versione $v"
+          }
+
+      - name: Prepara l'allegato
+        shell: pwsh
+        run: |
+          $tag = "${{ github.ref_name }}"
+          $name = "bluesniff-$($tag.TrimStart('v'))-windows-x64.exe"
+          Copy-Item "target\release\bluesniff.exe" "target\$name"
+          New-Item -ItemType Directory -Force -Path target\dist | Out-Null
+          Move-Item -Force "target\$name" "target\dist\$name"
+          "target\dist\$name" | Out-File -FilePath target\asset.txt -Encoding ascii -NoNewline
+          Get-Content target\asset.txt
+
+      - name: Carica il checksum
+        shell: pwsh
+        run: |
+          $asset = Get-Content target\asset.txt
+          $hash = (Get-FileHash $asset -Algorithm SHA256).Hash.ToLower()
+          "$hash  $(Split-Path $asset -Leaf)" | Out-File target\dist\SHA256SUMS.txt -Encoding ascii
+          Get-Content target\dist\SHA256SUMS.txt
+
+      # Solo sui tag: allega alla release GitHub. Con workflow_dispatch il
+      # tag e' vuoto e l'action viene saltata.
+      - name: Allega alla release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            target/dist/*
+          fail_on_unmatched_files: true
+          generate_release_notes: false
